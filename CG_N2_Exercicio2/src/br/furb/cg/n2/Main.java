@@ -148,35 +148,41 @@ public class Main implements GLEventListener, KeyListener
 		System.out.println("key");
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_I://aproximar
-			ortho2D_minX += 50.0f;
-			ortho2D_maxX -= 50.0f;
-			ortho2D_minY += 50.0f;
-			ortho2D_maxY -= 50.0f;
-    		glDrawable.display();
+			System.out.println("minX "+ ortho2D_minX + " maxX "+ ortho2D_maxX+ " minY "+ortho2D_minY+ " maxY "+ ortho2D_maxY);
+			if((ortho2D_minX + 50) < -50 && (ortho2D_maxX - 50) > 50 && (ortho2D_minY + 50) < -50 && (ortho2D_maxY - 50) > 50){
+				ortho2D_minX += 50.0f;
+				ortho2D_maxX -= 50.0f;
+				ortho2D_minY += 50.0f;
+				ortho2D_maxY -= 50.0f;
+				glDrawable.display();
+			}
 		break;
 		case KeyEvent.VK_O://afastar
-			ortho2D_minX -= 50.0f;
-			ortho2D_maxX += 50.0f;
-			ortho2D_minY -= 50.0f;
-			ortho2D_maxY += 50.0f;
-    		glDrawable.display();
+			System.out.println("minX "+ ortho2D_minX + " maxX "+ ortho2D_maxX+ " minY "+ortho2D_minY+ " maxY "+ ortho2D_maxY);
+			if((ortho2D_minX - 50) > -500 && (ortho2D_maxX + 50) < 500 && (ortho2D_minY - 50) > -500 && (ortho2D_maxY + 50) < 500){
+				ortho2D_minX -= 50.0f;
+				ortho2D_maxX += 50.0f;
+				ortho2D_minY -= 50.0f;
+				ortho2D_maxY += 50.0f;
+				glDrawable.display();
+			}
 		break;
-		case KeyEvent.VK_E://afastar
+		case KeyEvent.VK_E://esquerda
 			ortho2D_minX += 50.0f;
 			ortho2D_maxX += 50.0f;
     		glDrawable.display();
 		break;
-		case KeyEvent.VK_D://afastar
+		case KeyEvent.VK_D://direita
 			ortho2D_minX -= 50.0f;
 			ortho2D_maxX -= 50.0f;
     		glDrawable.display();
 		break;
-		case KeyEvent.VK_C://afastar
+		case KeyEvent.VK_C://cima
 			ortho2D_minY -= 50.0f;
 			ortho2D_maxY -= 50.0f;
     		glDrawable.display();
 		break;
-		case KeyEvent.VK_B://afastar
+		case KeyEvent.VK_B://baixo
 			ortho2D_minY += 50.0f;
 			ortho2D_maxY += 50.0f;
     		glDrawable.display();

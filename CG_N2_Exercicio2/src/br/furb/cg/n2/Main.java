@@ -78,7 +78,7 @@ public class Main implements GLEventListener, KeyListener
 
 	public void desenharSRU()
 	{
-		gl.glLineWidth(2.0f);
+		gl.glLineWidth(1.0f);
 
 		// Eixo X
 		gl.glColor3f(1.0f, 0.0f, 0.0f);

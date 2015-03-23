@@ -17,8 +17,8 @@ public class Main implements GLEventListener
 	private float ortho2D_minY = -200.0f;
 	private float ortho2D_maxY = 200.0f;
 	
-	private float sruX = 200;
-	private float sruY = 200;
+	private float sruX = 100;
+	private float sruY = 100;
 
 	private GL gl;
 	private GLU glu;
@@ -37,7 +37,7 @@ public class Main implements GLEventListener
 		glDrawable.setGL(new DebugGL(gl));
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		System.out.println("Espa????o de desenho com tamanho: " + drawable.getWidth() + " x " + drawable.getHeight());
+		System.out.println("Espaço de desenho com tamanho: " + drawable.getWidth() + " x " + drawable.getHeight());
 		
 		pontos = new ArrayList<Point>(10);
 		
@@ -93,7 +93,7 @@ public class Main implements GLEventListener
 
 	public void desenharSRU()
 	{
-		gl.glLineWidth(2.0f);
+		gl.glLineWidth(1.0f);
 
 		// Eixo X
 		gl.glColor3f(1.0f, 0.0f, 0.0f);

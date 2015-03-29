@@ -3,8 +3,6 @@ package br.furb.cg.n2;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
@@ -23,13 +21,15 @@ public class Main implements GLEventListener, KeyListener
 	private float sruY = 200;
 
 	private float raio = 100;
+	private float angulo = 45;
+	
+	private Point p1;
+	private Point p2;
 
 	private GL gl;
 	private GLU glu;
 
 	private GLAutoDrawable glDrawable;
-
-	private List<Point> pontos;
 
 	public void init(GLAutoDrawable drawable)
 	{
@@ -40,25 +40,11 @@ public class Main implements GLEventListener, KeyListener
 		glu = new GLU();
 		glDrawable.setGL(new DebugGL(gl));
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		
+		p1 = new Point(0, 0);
+		p2 = new Point(0, 0);
 
 		System.out.println("Espaço de desenho com tamanho: " + drawable.getWidth() + " x " + drawable.getHeight());
-
-		pontos = new ArrayList<Point>(72);
-
-		/*
-		 * 360 -- 72 x -- i
-		 * 
-		 * 72.x = 360.i x = 360.i / 72
-		 */
-
-		double a = 0;
-
-		for (int i = 0; i < 72; i++)
-		{
-			a = (360 * i) / 72;
-
-			pontos.add(criarPontoCirculo(a, raio));
-		}
 	}
 
 	public void display(GLAutoDrawable arg0)
@@ -71,7 +57,7 @@ public class Main implements GLEventListener, KeyListener
 		gl.glLoadIdentity();
 
 		desenharSRU();
-		desenharCirculoPontilhado();
+		desenharSR();
 
 		gl.glFlush();
 	}
@@ -99,20 +85,30 @@ public class Main implements GLEventListener, KeyListener
 		gl.glEnd();
 	}
 
-	public void desenharCirculoPontilhado()
+	public void desenharSR()
 	{
-		gl.glPointSize(2.0f);
+		double xp2 = RetornaX(angulo, raio) + p2.getX();
+		double yp2 = RetornaY(angulo, raio) + p2.getY();
+		
+		gl.glLineWidth(2);
+		gl.glBegin(GL.GL_LINES);
+		{
+			gl.glVertex2d(p1.getX(), p1.getY());
+			gl.glVertex2d(xp2, yp2);
+		}
+		gl.glEnd();
+		
+		gl.glPointSize(5);
 		gl.glBegin(GL.GL_POINTS);
 		{
-			for (Point p : pontos)
-				gl.glVertex2d(p.getX(), p.getY());
+			gl.glVertex2d(p1.getX(), p1.getY());
+			gl.glVertex2d(xp2, yp2);
 		}
 		gl.glEnd();
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3,
-			int arg4)
+	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4)
 	{
 		System.out.println(" --- reshape ---");
 	}
@@ -131,14 +127,6 @@ public class Main implements GLEventListener, KeyListener
 	public double RetornaY(double angulo, double raio)
 	{
 		return (raio * Math.sin(Math.PI * angulo / 180.0));
-	}
-
-	public Point criarPontoCirculo(double angulo, double raio)
-	{
-		int x = (int) RetornaX(angulo, raio);
-		int y = (int) RetornaY(angulo, raio);
-
-		return new Point(x, y);
 	}
 
 	@Override
@@ -195,6 +183,32 @@ public class Main implements GLEventListener, KeyListener
 			case KeyEvent.VK_B:// baixo
 				ortho2D_minY += 50.0f;
 				ortho2D_maxY += 50.0f;
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_W:// SR para direita
+				p1.setLocation(p1.getX() + 10, p1.getY());
+				p2.setLocation(p2.getX() + 10, p2.getY());
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_Q:// SR para esquerda
+				p1.setLocation(p1.getX() - 10, p1.getY());
+				p2.setLocation(p2.getX() - 10, p2.getY());
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_A:// SR diminuir raio
+				raio -= 5;	
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_S:// SR aumentar raio
+				raio += 5;
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_Z:// SR diminuir angulo
+				angulo -= 5;	
+				glDrawable.display();
+				break;
+			case KeyEvent.VK_X:// SR aumentar angulo
+				angulo += 5;
 				glDrawable.display();
 				break;
 		}

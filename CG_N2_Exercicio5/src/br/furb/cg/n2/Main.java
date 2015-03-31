@@ -1,7 +1,7 @@
 package br.furb.cg.n2;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
@@ -9,7 +9,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-public class Main implements GLEventListener, KeyListener
+public class Main extends KeyAdapter implements GLEventListener
 {
 	private float ortho2D_minX = -400.0f;
 	private float ortho2D_maxX = 400.0f;
@@ -91,31 +91,54 @@ public class Main implements GLEventListener, KeyListener
 	}
 
 	public void desenharPrimitiva()
-	{				
-		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		
-		gl.glLineWidth(2);		
+	{		
+		gl.glLineWidth(2);	
 		gl.glPointSize(5);
 		gl.glBegin(primitivas[idxPrimitiva]);
 		{
-			// Vermelho
-			gl.glColor3f(1.0f, 0.0f, 0.0f);			
-			gl.glVertex2d(+200, -200);
+			switch (idxPrimitiva)
+			{
+				case 8:
+																									
+					// Azul
+					gl.glColor3f(0.0f, 0.0f, 1.0f);
+					gl.glVertex2d(-200, +200);
+					
+					// Roxo
+					gl.glColor3f(1.0f, 0.0f, 1.0f);
+					gl.glVertex2d(-200, -200);
+					
+					// Vermelho
+					gl.glColor3f(1.0f, 0.0f, 0.0f);			
+					gl.glVertex2d(+200, -200);
+					
+					// Verde
+					gl.glColor3f(0.0f, 1.0f, 0.0f);
+					gl.glVertex2d(+200, +200);
+					
+					break;
+					
+				default:
 			
-			// Verde
-			gl.glColor3f(0.0f, 1.0f, 0.0f);
-			gl.glVertex2d(+200, +200);
-			
-			// Azul
-			gl.glColor3f(0.0f, 0.0f, 1.0f);
-			gl.glVertex2d(-200, +200);
-			
-			// Roxo
-			gl.glColor3f(1.0f, 0.0f, 1.0f);
-			gl.glVertex2d(-200, -200);
+					// Vermelho
+					gl.glColor3f(1.0f, 0.0f, 0.0f);			
+					gl.glVertex2d(+200, -200);
+					
+					// Verde
+					gl.glColor3f(0.0f, 1.0f, 0.0f);
+					gl.glVertex2d(+200, +200);
+					
+					// Azul
+					gl.glColor3f(0.0f, 0.0f, 1.0f);
+					gl.glVertex2d(-200, +200);
+					
+					// Roxo
+					gl.glColor3f(1.0f, 0.0f, 1.0f);
+					gl.glVertex2d(-200, -200);
+			}
 		}
 		gl.glEnd();
-	}	
+	}
 
 	@Override
 	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4)
@@ -127,40 +150,20 @@ public class Main implements GLEventListener, KeyListener
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2)
 	{
 		System.out.println(" --- displayChanged ---");
-	}
-
-	public double RetornaX(double angulo, double raio)
-	{
-		return (raio * Math.cos(Math.PI * angulo / 180.0));
-	}
-
-	public double RetornaY(double angulo, double raio)
-	{
-		return (raio * Math.sin(Math.PI * angulo / 180.0));
-	}
+	}	
 
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		System.out.println("key");
 		switch (e.getKeyCode())
 		{
 			case KeyEvent.VK_SPACE: // alternar primitiva
-				idxPrimitiva = (idxPrimitiva + 1) % 10;				
+				idxPrimitiva = (idxPrimitiva + 1) % 10;
+				
+				System.out.println("Primitiva: " + idxPrimitiva);
+				
 				glDrawable.display();
 				break;				
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		System.out.println(" --- keyReleased ---");
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
-		System.out.println(" --- keyTyped ---");
 	}
 }

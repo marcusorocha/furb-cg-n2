@@ -29,7 +29,6 @@ public class Main extends MouseInputAdapter implements GLEventListener, KeyListe
 
 	private GLAutoDrawable glDrawable;
 
-	//private List<Point> pontosControle;
 	private List<Point> pontosSpline;
 	private int numPontosSpline = 0;
 	
